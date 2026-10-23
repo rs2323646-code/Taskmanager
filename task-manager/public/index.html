@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OPS BOARD — Task Command</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="blueprint-bg"></div>
+  <div id="toastBox"></div>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-icon">▲</span>
+      <div>
+        <h1>OPS BOARD</h1>
+        <p class="tagline">TASK COMMAND SYSTEM</p>
+      </div>
+    </div>
+    <div id="authSection" class="auth-controls">
+      <span id="userGreeting" class="hidden"></span>
+      <button id="loginBtn" class="btn btn-ghost" onclick="showLogin()">LOG IN</button>
+      <button id="registerBtn" class="btn btn-ghost" onclick="showRegister()">ENLIST</button>
+      <button id="newTaskBtn" class="btn btn-primary hidden" onclick="showNewTask()">+ NEW TASK</button>
+      <button id="logoutBtn" class="btn btn-ghost hidden" onclick="logout()">LOG OUT</button>
+    </div>
+  </header>
+
+  <div id="overlay" class="overlay hidden" onclick="closeModals()"></div>
+
+  <!-- LOGIN -->
+  <div id="loginForm" class="modal hidden">
+    <button class="modal-close" onclick="closeModals()">&times;</button>
+    <p class="eyebrow">[ ACCESS REQUIRED ]</p>
+    <h2>Log In</h2>
+    <label>Email<input type="email" id="loginEmail" placeholder="operator@ops.io" /></label>
+    <label>Password<input type="password" id="loginPassword" placeholder="••••••••" /></label>
+    <button class="btn btn-primary btn-block" onclick="login()">LOG IN</button>
+    <p class="switch-line">No clearance yet? <a onclick="showRegister()">Enlist</a></p>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="registerForm" class="modal hidden">
+    <button class="modal-close" onclick="closeModals()">&times;</button>
+    <p class="eyebrow">[ NEW OPERATOR ]</p>
+    <h2>Enlist</h2>
+    <label>Name<input type="text" id="regName" placeholder="Your name" /></label>
+    <label>Email<input type="email" id="regEmail" placeholder="operator@ops.io" /></label>
+    <label>Password<input type="password" id="regPassword" placeholder="••••••••" /></label>
+    <button class="btn btn-primary btn-block" onclick="register()">CREATE ACCOUNT</button>
+    <p class="switch-line">Already enlisted? <a onclick="showLogin()">Log in</a></p>
+  </div>
+
+  <!-- NEW / EDIT TASK -->
+  <div id="taskForm" class="modal modal-wide hidden">
+    <button class="modal-close" onclick="closeModals()">&times;</button>
+    <p class="eyebrow" id="taskFormEyebrow">[ NEW ORDER ]</p>
+    <h2 id="taskFormTitle">Create Task</h2>
+    <label>Title<input type="text" id="taskTitle" placeholder="Task title" /></label>
+    <label>Description<textarea id="taskDesc" rows="3" placeholder="Details, objectives, notes..."></textarea></label>
+    <div class="form-row">
+      <label>Priority
+        <select id="taskPriority">
+          <option value="low">LOW</option>
+          <option value="medium" selected>MEDIUM</option>
+          <option value="high">HIGH</option>
+        </select>
+      </label>
+      <label>Due Date<input type="date" id="taskDueDate" /></label>
+    </div>
+    <input type="hidden" id="editingTaskId" />
+    <button class="btn btn-primary btn-block" onclick="submitTask()">DEPLOY TASK</button>
+  </div>
+
+  <main>
+    <div id="loggedOutState" class="logged-out-state">
+      <p class="eyebrow">[ RESTRICTED ]</p>
+      <h2>Log in to access your board</h2>
+      <p>Task tracking, priorities, and deadlines — all yours, all private.</p>
+    </div>
+
+    <div id="board" class="board hidden">
+      <div class="board-column" data-status="todo">
+        <div class="column-head">
+          <span class="status-dot dot-todo"></span>
+          <h3>TO DO</h3>
+          <span class="count-badge" id="countTodo">0</span>
+        </div>
+        <div class="column-body" id="colTodo"></div>
+      </div>
+      <div class="board-column" data-status="in-progress">
+        <div class="column-head">
+          <span class="status-dot dot-progress"></span>
+          <h3>IN PROGRESS</h3>
+          <span class="count-badge" id="countProgress">0</span>
+        </div>
+        <div class="column-body" id="colProgress"></div>
+      </div>
+      <div class="board-column" data-status="done">
+        <div class="column-head">
+          <span class="status-dot dot-done"></span>
+          <h3>DONE</h3>
+          <span class="count-badge" id="countDone">0</span>
+        </div>
+        <div class="column-body" id="colDone"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>OPS BOARD — built for Thiranex Task #2</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
